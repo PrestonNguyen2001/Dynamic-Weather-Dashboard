@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <script src="assets/js/script.js" type="module"></script>
+</head>
+
+<body>
+    <h1>Weather Dashboard</h1>
+
+    <div class="container">
+        <!-- SEARCH INPUT -->
+        <div class="weather-search">
+            <h3>Enter a City Name</h3>
+            <input class="city-search" type="text" placeholder="E.g., New York, London, Tokyo">
+            <button class="search-btn">Search</button>
+            <div class="separator"></div>
+            <button class="location-btn">Use Current Location</button>
+        </div>
+        
+        <!-- WEATHER DATA -->
+        <div class="weather-data" style="display: none;">
+            
+            <!-- CURRENT WEATHER -->
+            <div class="card card-lg">
+                <div class="current-weather">
+                    <div class="details">
+                    <h2>_______ ( ______ )</h2>
+                    <h6>Temperature: __°F, __°C</h6>
+                    <h6>Wind: __ mph</h6>
+                    <h6>Humidity: __%</h6>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- 5-DAY FORECAST -->
+            <div class="days-forecast">
+                <h2>5-Day Forecast</h2>
+                <ul class="weather-cards">
+
+                    <!-- DAY 1 FORCAST CARD-->
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                        <h6>Temp: __°F, __°C</h6>
+                        <h6>Wind: __ mph</h6>
+                        <h6>Humidity: __%</h6>
+                    </li>
+
+                    <!-- DAY 2 FORCAST CARD-->
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                        <h6>Temp: __°F, __°C</h6>
+                        <h6>Wind: __ mph</h6>
+                        <h6>Humidity: __%</h6>
+                    </li>
+
+                    <!-- DAY 3 FORCAST CARD-->
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                        <h6>Temp: __°F, __°C</h6>
+                        <h6>Wind: __ mph</h6>
+                        <h6>Humidity: __%</h6>
+                    </li>
+
+                    <!-- DAY 4 FORCAST CARD-->
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                        <h6>Temp: __°F, __°C</h6>
+                        <h6>Wind: __ mph</h6>
+                        <h6>Humidity: __%</h6>
+                    </li>
+
+                    <!-- DAY 5 FORCAST CARD-->
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                        <h6>Temp: __°F, __°C</h6>
+                        <h6>Wind: __ mph</h6>
+                        <h6>Humidity: __%</h6>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+</html>
