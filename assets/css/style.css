@@ -12,9 +12,11 @@
     --hover-primary: #2c52ed;
     --surface: #1D1C1F;
     --on-surface: #DDDAE5;
+    --outline: #3E3D40;
 
     /* FONT SIZE */
     --body-1: 1.6rem;
+    --title-1: 1.8rem;
 
     /* BORDER RADIUS */
     --radius: 28px;
@@ -29,6 +31,8 @@
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
 }
+
+li { list-style: none; }
 
 /*-----------------------------------*\
 #BASE
@@ -59,10 +63,10 @@ h1 {
 /*-----------------------------------*\
 #SEARCH
 \*-----------------------------------*/
-.weather-input {
+.weather-search {
     width: 550px;
 }
-.weather-input input {
+.weather-search input {
     height: 46px;
     width: 100%;
     outline: none;
@@ -72,11 +76,11 @@ h1 {
     border-radius: 4px;
     border: 1px solid #ccc;
 }
-.weather-input input:focus {
+.weather-search input:focus {
     padding: 0 16px;
     border: 2px solid var(--primary);
 }
-.weather-input .separator {
+.weather-search .separator {
     height: 1px;
     width: 100%;
     margin: 25px 0;
@@ -85,7 +89,7 @@ h1 {
     align-items: center;
     justify-content: center;
 }
-.weather-input .separator::before{
+.weather-search .separator::before{
     content: "or";
     color: #6C757D;
     font-size: 1.18rem;
@@ -93,7 +97,7 @@ h1 {
     margin-top: -4px;
     background: #E3F2FD;
 }
-.weather-input button {
+.weather-search button {
     width: 100%;
     padding: 10px 0;
     cursor: pointer;
@@ -105,15 +109,57 @@ h1 {
     background: var(--primary);
     transition: 0.2s ease;
 }
-.weather-input .search-btn:hover {
+.weather-search .search-btn:hover {
     background: var(--hover-primary);
 }
-.weather-input .location-btn {
+.weather-search .location-btn {
     background-color: var(--primary);
 }
-.weather-input .location-btn:hover {
+.weather-search .location-btn:hover {
     background: var(--hover-primary);
 }
+
+/* RECENT CITIES */
+.recent-city {
+    width: 100%;
+    padding: 10px 0;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #fff;
+    background: var(--primary);
+    transition: 0.2s ease;
+    margin-bottom: 10px;
+}
+.recent-city:hover {
+    background: var(--hover-primary);
+}
+
+/*-----------------------------------*\
+  #MATERIAL ICON
+\*-----------------------------------*/
+
+@font-face {
+    font-family: 'Material Symbols Rounded';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/material-symbol-rounded.woff2) format('woff2');
+  }
+  
+.m-icon {
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-right: 0.5em;
+    height: 1em;
+    width: 1em;
+    overflow: hidden;
+}
+  
 
 /*-----------------------------------*\
 #WEATHER FORECAST
@@ -152,6 +198,12 @@ h1 {
     margin-top: -10px;
     text-transform: capitalize;
 }
+
+.title-1 {
+    font-size: var(--title-1);
+    margin-block-end: 12px;
+}
+
 
 /* 5 DAY FORECAST */
 .days-forecast h2 {
