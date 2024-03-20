@@ -34,40 +34,22 @@
         <div class="weather-data" style="display: none;">
             
             <!-- CURRENT WEATHER -->
-            <h2>Current Weather</h2>
-            <div class="card card-lg">
-                <div class="current-weather">
-                    <div class="details">
-                    </div>
-                </div>
+            <div class="card card-lg current-weather-card">
+                <div class="current-weather" data-current-weather></div>
+
+                <div class="highlight-list" data-highlights></div>
             </div>
         
             <!-- 5-DAY FORECAST -->
-            <div class="days-forecast">
-                <h2>5-Day Forecast</h2>
-                <ul class="weather-cards">
-
-                    <!-- DAY 1 FORCAST CARD-->
-                    <li class="card">
-                    </li>
-
-                    <!-- DAY 2 FORCAST CARD-->
-                    <li class="card">
-                    </li>
-
-                    <!-- DAY 3 FORCAST CARD-->
-                    <li class="card">
-                    </li>
-
-                    <!-- DAY 4 FORCAST CARD-->
-                    <li class="card">
-                    </li>
-
-                    <!-- DAY 5 FORCAST CARD-->
-                    <li class="card">
-                    </li>
-
-                </ul>
+            <div class="slider-container">
+                <div class="slider-list">
+                    <div class="days-forecast">
+                        <h2>5-Day Forecast</h2>
+                        
+                        <ul class="card card-lg weather-cards slider-card"></ul>
+                    </div>
+                </div>
+                        
             </div>
         </div>
     </div>
