@@ -7,11 +7,11 @@
 
     /* COLORS */
     --background: #131214;
-    --on-background: #EAE6F2;
+    --on-background: #f5f3f7;
     --primary: #5372F0;
     --hover-primary: #2c52ed;
     --surface: #1D1C1F;
-    --on-surface: #DDDAE5;
+    --on-surface: #ffffff;
     --on-surface-variant: #7B7980; 
     --outline: #3E3D40;
     --black: hsla(0, 0%, 0%, 0.1);
@@ -36,6 +36,7 @@
     --body-3: 1.6rem;
     --label-1: 1.4rem;
     --label-2: 1.2rem;
+    --heading: 2.4rem;
 
     /* FONT WEIGHT */
     --weight-regular: 400;
@@ -45,6 +46,7 @@
     --radius: 28px;
     --radius-2: 500px;
     --radius-3: 16px;
+
 }
 
 /*-----------------------------------*\
@@ -62,15 +64,18 @@ li { list-style: none; }
 button { display: block; }
 
 body {
+    background-image: url('/assets/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: var(--background);
     color: var(--on-background);
     font-size: var(--body-3);
-    /* overflow: hidden; */
 }
 
 ::-webkit-scrollbar {
     width: 6px;
-    height: 6px; /* for horizontal scrollbar */
+    height: 6px;
   }
   
 ::-webkit-scrollbar-thumb {
@@ -104,42 +109,27 @@ body {
 /*-----------------------------------*\
 #MAIN
 \*-----------------------------------*/
-.container {
-    display: flex;
-    gap: 35px;
-    padding: 30px;
-}
-
-h1 {
-    background: var(--primary);
-    font-size: 1.75rem;
-    text-align: center;
-    padding: 18px 0;
-    color: #fff;
-}
-
 .heading {
     color: var(--white);
     font-size: var(--heading);
     line-height: 1.1;
-  }
-
-/* .heading {
-font-size: 24px; /* Default font size */
-
-.heading {
-    font-size: 32px; /* Default font size */
+}
+ 
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-left: 400px;
 }
 
-.heading br {
-    display: none; 
-}
-    
-article.container {
-    position: relative;
-    display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
-    gap: 200px;
+h1 {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(19.6px);
+    font-size: 1.75rem;
+    text-align: center;
+    padding: 18px 0;
+    color: #fff;
 }
 
 /*-----------------------------------*\
@@ -180,8 +170,8 @@ article.container {
 .label-2 { font-size: var(--label-2); }
 
 .card {
-    background-color: var(--surface);
     color: var(--on-surface);
+    
 }
 
 .card-lg {
@@ -199,7 +189,7 @@ article.container {
     color: #fff;
     padding: 18px 16px;
     list-style: none;
-    width: calc(100% / 5);
+    width: calc(20% - 10px);
     background: var(--surface);
     border-radius: 28px;
 }
@@ -218,10 +208,31 @@ article.container {
 }
 
 /*-----------------------------------*\
+#SIDBAR
+\*-----------------------------------*/
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 400px; 
+    background: rgba(0, 0, 0, 0.775);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14.4px);
+    -webkit-backdrop-filter: blur(14.4px);
+    z-index: 1000; 
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/*-----------------------------------*\
 #SEARCH
 \*-----------------------------------*/
 .weather-search {
-    width: 550px;
+    width: 100%;
+    padding: 20px;
 }
 .weather-search input {
     height: 46px;
@@ -276,7 +287,9 @@ article.container {
     background: var(--hover-primary);
 }
 
-/* RECENT CITIES */
+/*-----------------------------------*\
+#RECENT CITY
+\*-----------------------------------*/
 .recent-city {
     width: 100%;
     padding: 10px 0;
@@ -295,10 +308,15 @@ article.container {
 }
 
 /*-----------------------------------*\
-  #CURRENT WEATHER
+#CURRENT WEATHER
 \*-----------------------------------*/
 .current-weather {
-    background-color: var(--surface);
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(19.6px);
+
+
     border-radius: var(--radius);
     padding: 20px;
 }
@@ -327,12 +345,6 @@ article.container {
     border-block-start: 1px solid var(--outline);
 }
 
-.days-forecast .meta-list {
-    margin-block-start: 16px;
-    padding-block-start: 16px;
-    border-block-end: 1px solid var(--outline);
-}
-
 .current-weather-card .meta-item,
 .forecast-card .meta-item {
     display: flex;
@@ -344,11 +356,6 @@ article.container {
     margin-block-end: 12px;
 }
   
-.current-weather-card .meta-text,
-.forecast-card .meta-text { 
-    color: var(--on-surface-variant); 
-}
-
 /*-----------------------------------*\
   #HIGHLIGHTS
 \*-----------------------------------*/
@@ -362,12 +369,14 @@ article.container {
 .highlight-list {
     display: grid;
     gap: 20px;
-    background-color: var(--surface);
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(19.6px);
     margin-top: 20px;
 }
 
 .highlight-list .title-3 {
-    color: var(--on-surface-variant);
     margin-block-end: 20px;
 }
 
@@ -405,7 +414,6 @@ article.container {
     gap: 4px;
 }
   
-.highlight-card .label-1 { color: var(--on-surface-variant); }
 
 .highlight-card.two .card-item {
     justify-content: flex-start;
@@ -417,8 +425,8 @@ article.container {
 
 .badge {
     position: absolute;
-    top: 630px;
-    right: 78px;
+    top: 110px;
+    right: 60px;
     padding: 2px 12px;
     border-radius: var(--radius-2);
     font-weight: var(--weight-semiBold);
@@ -452,18 +460,28 @@ article.container {
 /*-----------------------------------*\
   #DAYS FORECAST
 \*-----------------------------------*/
+
+.days-forecast {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(19.6px);
+    margin: 20px;
+    height: 100%;
+}
 .days-forecast h2 {
     margin: 20px 0;
     font-size: 1.5rem;
 }
 .days-forecast .weather-cards {
-    width: 300px; /* Adjust the width of each forecast card */
-    margin-right: 20px; /* Optional: Add spacing between forecast cards */
-    display: inline-block; /* Display forecast cards inline */
+    width: 350px; 
+    height: 300px;
+    margin-right: 20px;
+    display: inline-block; 
     vertical-align: top;
-    /* display: flex; */
+    padding-left: 20px;
     gap: 20px;
-    /* background-color: var(--black); */
 }
 
 .days-forecast .wrapper {
@@ -476,12 +494,16 @@ article.container {
     background-color: var(--black);
 }
 
+.days-forecast .meta-list {
+    margin-block-start: 16px;
+    padding-block-start: 16px;
+    border-block-end: 1px solid var(--outline);
+}
+
 .slider-container {
     overflow-x: auto;
     white-space: nowrap;
-    margin-inline: -16px;
-    background-color: var(--surface);
-    border-radius: var(--radius);
+    height: 350px;
 }
   
 .slider-container::-webkit-scrollbar { display: none; }
@@ -505,10 +527,10 @@ article.container {
 }
   
 .slider-card {
-    width: 300px; /* Adjust the width of each forecast card */
-    margin-right: 20px; /* Optional: Add spacing between forecast cards */
-    display: inline-block; /* Display forecast cards inline */
-    vertical-align: top; /* Align forecast cards to the top */
+    width: 300px;
+    margin-right: 20px; 
+    display: inline-block; 
+    vertical-align: top; 
 }
   
 .slider-item .weather-icon {
@@ -535,13 +557,6 @@ article.container {
 
 
 @media (max-width: 1050px) {
-
-    article.container {
-        display: block;
-    }
-    .weather-search {
-        width: 100%;
-    }
     .weather-input {
         width: 450px;
     }
@@ -563,10 +578,6 @@ article.container {
     h1 {
         font-size: 1.45rem;
         padding: 16px 0;
-    }
-    .container {
-        flex-wrap: wrap;
-        padding: 15px;
     }
     .weather-input {
         width: 100%;
