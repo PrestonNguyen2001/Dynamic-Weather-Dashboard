@@ -8,18 +8,17 @@
 
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    
     <script src="assets/js/script.js" type="module"></script>
 </head>
 
 <body>
     <h1>Weather Dashboard</h1>
 
-    <div class="container">
+    <article class="container">
         <!-- SEARCH INPUT -->
         <div class="weather-search">
             <h3>Enter a City Name</h3>
-            <input class="city-search" type="text" placeholder="E.g., New York, London, Tokyo">
+            <input class="city-search" type="text" placeholder="Search City...">
             <button class="search-btn">Search</button>
             <div class="separator"></div>
             <button class="location-btn">Use Current Location</button>
@@ -37,22 +36,38 @@
             <div class="card card-lg current-weather-card">
                 <div class="current-weather" data-current-weather></div>
 
-                <div class="highlight-list" data-highlights></div>
+                <div class="highlight-list" data-highlights>
+                    <h2 class="title-2" id="highlights-label">Today's Highlights</h2>
+                    <div class="card card-sm highlight-card one"></div>
+                    <div class="card card-sm highlight-card two"></div>
+                    <div class="card card-sm highlight-card"></div>
+                    <div class="card card-sm highlight-card"></div> 
+                    <div class="card card-sm highlight-card"></div> 
+                    <div class="card card-sm highlight-card"></div>  
+                </div>
             </div>
+
+            
         
             <!-- 5-DAY FORECAST -->
-            <div class="slider-container">
-                <div class="slider-list">
-                    <div class="days-forecast">
-                        <h2>5-Day Forecast</h2>
+            <div class="days-forecast">
+                <h2>5-Day Forecast</h2>
+                <div class="slider-container">
+                    
+                    <ul class="slider-list">
                         
-                        <ul class="card card-lg weather-cards slider-card"></ul>
-                    </div>
+                        <li class="slider-item">
+                            <div class="card card-lg weather-cards slider-card">
+
+                            </div>
+                        </li>
+
+                    </ul>
                 </div>
-                        
             </div>
+                         
         </div>
-    </div>
+    </article>
     
 
 </body>

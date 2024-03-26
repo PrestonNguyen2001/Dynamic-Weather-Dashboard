@@ -7,28 +7,59 @@ const searchList = document.querySelector(".search-list");
 const maxRecentSearches = 5;
 const API_KEY = "5d76e2fe10d0797736029ed7bdd917aa"; 
 
+
+/*-----------------------------------*\
+#UTILITY FUNCTIONS
+\*-----------------------------------*/
+
+function capitalizeWords(str) {
+    return str.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+}
+// Function to convert temperature from Kelvin to Celsius
+const kelvinToCelsius = (kelvin) => (kelvin - 273.15).toFixed(2);
+
+ // Function to convert temperature from Kelvin to Fahrenheit
+const kelvinToFahrenheit = (kelvin) => ((kelvin - 273.15) * 9/5 + 32).toFixed(2);
+
+// Function to convert Unix time to local time
+function convertUnixTimeToLocalTime(unixTime, timezoneOffset) {
+    return new Date((unixTime + timezoneOffset) * 1000);
+}
+
+// Function to format time as HH:MM AM/PM
+function formatTime(date) {
+    let hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+}
+
+
 /*-----------------------------------*\
 #RECENT SEARCHES
 \*-----------------------------------*/
 // Function to add a city to the recent searches list
 const addToRecentSearches = (cityName) => {
     let recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+    
     // Check if city already exists in recent searches
     if (!recentSearches.includes(cityName)) {
         // Add the city to recent searches
         recentSearches.unshift(cityName);
+        
         // Limit recent searches to maxRecentSearches
         recentSearches = recentSearches.slice(0, maxRecentSearches);
+        
         localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+        
+        // Render recent searches
         renderRecentSearches();
     }
 }
-
-// Function to capitalize the first letter of each word
-function capitalizeWords(str) {
-    return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-
 
 // Function to render recent searches as buttons
 const renderRecentSearches = () => {
@@ -51,7 +82,6 @@ const renderRecentSearches = () => {
 // Render recent searches when the page loads
 renderRecentSearches();
 
-
 /*-----------------------------------*\
 #WEATHER CARDS
 \*-----------------------------------*/
@@ -59,9 +89,6 @@ const createWeatherCard = (cityName, weatherItem, index) => {
     // Function to convert temperature from Kelvin to Celsius
     const kelvinToCelsius = (kelvin) => (kelvin - 273.15).toFixed(2);
     
-    // Function to convert temperature from Kelvin to Fahrenheit
-    const kelvinToFahrenheit = (kelvin) => ((kelvin - 273.15) * 9/5 + 32).toFixed(2);
-
     // Function to convert wind speed from meters per second (m/s) to miles per hour (mph)
     const mpsToMph = (mps) => (mps * 2.237).toFixed(2);
 
@@ -77,7 +104,6 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         return `${dayOfWeek} ${dayOfMonth}, ${month}`;
 }
 
-
     // Check if weatherItem has dt property
     const date = weatherItem.dt ? formatDate(weatherItem.dt, index !== 0) : "";
 
@@ -85,14 +111,16 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         const tempCelsius = kelvinToCelsius(weatherItem.main.temp);
         const tempFahrenheit = kelvinToFahrenheit(weatherItem.main.temp);
         const windMph = mpsToMph(weatherItem.wind.speed);
+        
 
         return `
             <h2 class="title-2 card-title">Now</h2>
-                <div class="weapper">
-                    <p class="heading">${tempFahrenheit}°F <br> ${tempCelsius}°C</p>
+                <div class="wrapper">
+                    <p class="heading">${tempFahrenheit}°F / ${tempCelsius}°C</p>
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
                 </div>
                 <p class="body-3">${weatherItem.weather[0].description}</p>
+               
 
                 <ul class="meta-list">
 
@@ -113,26 +141,24 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         const windMph = mpsToMph(weatherItem.wind.speed);
     
         return `<li class="card weather-cards slider-card forecast-card">
+        <ul class="meta-list">
+            <li class="meta-item">
+                <span class="m-icon">calendar_today</span>
+                <p class="title-3 meta-text">${date}</p>
+            </li>
+        </ul>
+        <div class="wrapper">
+            
+            <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png"
+                alt="weather-icon">
 
-                
-                    <ul class="meta-list">
-
-                        <li class="meta-item">
-                            <span class="m-icon">calendar_today</span>
-                            <p class="title-3 meta-text">${date}</p>
-                        </li>
-                    </ul>
-
-                    <div class="weapper">
-                    <p class="heading">${tempFahrenheit}°F <br> ${tempCelsius}°C</p>
-                    <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
-                    </div>
-          
-
-                </li>`;
+            <p class="heading">${tempFahrenheit}°F / ${tempCelsius}°C</p>
+        </div>
+   </li>`;
     }
 }
 
+// Slider functionality for weather cards
 const sliderContainer = document.querySelector('.slider-container');
 
 sliderContainer.addEventListener('wheel', (e) => {
@@ -140,41 +166,77 @@ sliderContainer.addEventListener('wheel', (e) => {
     sliderContainer.scrollLeft += e.deltaX;
 });
 
-
-// Function to convert visibility from meters to kilometers
-const metersToKilometers = (meters) => (meters / 1000).toFixed(2);
-
-// Function to convert temperature from Kelvin to Celsius
-const kelvinToCelsius = (kelvin) => (kelvin - 273.15).toFixed(2);
-
 /*-----------------------------------*\
-#TODAY'S HIGHLIGHTS
+#WEATHER HIGHLIGHTS
 \*-----------------------------------*/
-// Function to display Today's Highlights card
+// Function to display Today's Highlights card with badge for air quality
 const displayTodaysHighlights = (cityName, currentWeatherData) => {
     // Remove existing highlight-list if it exists
     const existingHighlights = document.querySelector("[data-highlights]");
     if (existingHighlights) {
         existingHighlights.remove();
     }
-    
+
+    // Function to get AQI text level based on AQI value
+    const getAqiText = (aqiValue) => {
+        if (aqiValue >= 1 && aqiValue <= 50) {
+            return "Good";
+        } else if (aqiValue >= 51 && aqiValue <= 100) {
+            return "Fair";
+        } else if (aqiValue >= 101 && aqiValue <= 150) {
+            return "Moderate";
+        } else if (aqiValue >= 151 && aqiValue <= 200) {
+            return "Poor";
+        } else if (aqiValue >= 201 && aqiValue <= 300) {
+            return "Very Poor";
+        } else {
+            return "Hazardous";
+        }
+    };
+
+    // Function to get badge color based on AQI text level
+    const getBadgeColor = (aqiText) => {
+        switch (aqiText) {
+            case "Good":
+                return "badge aqi-1";
+            case "Fair":
+                return "badge aqi-2";
+            case "Moderate":
+                return "badge aqi-3";
+            case "Poor":
+                return "badge aqi-4";
+            case "Very Poor":
+                return "badge aqi-5";
+            case "Hazardous":
+                return "badge aqi-5";
+            default:
+                return "gray";
+        }
+    };
+
+    // Get AQI text level and badge color
+    const aqiLevel = currentWeatherData.aqiLevel;
+    const aqiText = getAqiText(aqiLevel);
+    const badgeColor = getBadgeColor(aqiText);
+
+    // Format Today's Highlights card HTML with the badge
     const todaysHighlightsHTML = `
-    <div class="card card-lg data-highlights" data-highlights>
-        <div class="highlight-list">
+   
+        <div class="card card-lg highlight-list" data-highlights>
             <h2 class="title-2" id="highlights-label">Today's Highlights</h2>
             <div class="card card-sm highlight-card one">
                 <h3 class="title-3">Air Quality Index</h3>
+                <span class="${getBadgeColor(aqiText)}">${aqiText}</span>
                 <div class="wrapper">
                     <span class="m-icon">air</span>
                     <ul class="card-list">
                         <li class="card-item">
-                            <div class="highlight-info">
-                                <span class="badge">${currentWeatherData.airQuality}</span>
-                                <p>${currentWeatherData.aqiLevel}</p>
-                            </div>
+                            <p class="title-1"> ${currentWeatherData.airQuality}</p>
+                            
+                            <p class="label-1">PM<sub>2.5</sub></p>
                         </li>
                     </ul>
-                </div>
+                </div> 
             </div>
 
             <div class="card card-sm highlight-card two">
@@ -214,42 +276,24 @@ const displayTodaysHighlights = (cityName, currentWeatherData) => {
             </div>
 
             <div class="card card-sm highlight-card">
-                <h3 class="title-3">Visibility</h3>
-                <div class="wrapper">
-                    <span class="m-icon">visibility</span>
-                    <p class="title-1">${metersToKilometers(currentWeatherData.visibility)}<sub>km</sub></p>
-                </div>
-            </div>
-
-            <div class="card card-sm highlight-card">
                 <h3 class="title-3">Feels Like</h3>
                 <div class="wrapper">
                     <span class="m-icon">thermostat</span>
-                    <p class="title-1">${kelvinToCelsius(currentWeatherData.feelsLike)}&deg;<sup>c</sup></p>
+                    <p class="title-1">${kelvinToFahrenheit(currentWeatherData.feelsLike)}&deg;<sub>F</sub></p>
                 </div>
             </div>
         </div>
-    </div>`;
+    `;
     
     // Insert highlights HTML after the current weather card
     currentWeather.insertAdjacentHTML("afterend", todaysHighlightsHTML);
 }
 
 
-
-
 /*-----------------------------------*\
 #WEATHER DETAILS
 \*-----------------------------------*/
-function formatTime(date) {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
 
-    // Pad minutes with zero if less than 10
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-
-    return `${hours}:${minutes}`;
-}
 // Function to get weather details based on city name
 const getCityWeather = (cityName) => {
     const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
@@ -282,15 +326,23 @@ const getCityWeather = (cityName) => {
                     // Fetching five-day forecast based on city coordinates
                     getCityCoordinates(cityName, lat, lon);
 
+                    // Adjust sunrise and sunset times by timezone offset
+                    const timezoneOffset = weatherData.timezone; // in seconds
+                    const sunriseTime = new Date((weatherData.sys.sunrise + timezoneOffset) * 1000);
+                    const sunsetTime = new Date((weatherData.sys.sunset + timezoneOffset) * 1000);
+
+                    // Format Date Objects to Time Strings
+                    const sunriseTimeString = formatTime(sunriseTime);
+                    const sunsetTimeString = formatTime(sunsetTime);
+
                     // Display Today's Highlights
                     displayTodaysHighlights(cityName, {
                         airQuality: airQualityData.list[0].components.pm10, // Extract air quality data
                         aqiLevel: airQualityData.list[0].main.aqi, // Extract AQI level
-                        sunrise: weatherData.sys.sunrise ? formatTime(new Date(weatherData.sys.sunrise * 1000)) : "N/A",
-                        sunset: weatherData.sys.sunset ? formatTime(new Date(weatherData.sys.sunset * 1000)) : "N/A",
+                        sunrise: sunriseTimeString,
+                        sunset: sunsetTimeString,
                         humidity: weatherData.main.humidity,
                         pressure: weatherData.main.pressure,
-                        visibility: weatherData.visibility ? metersToKilometers(weatherData.visibility) : "N/A", // Update visibility retrieval
                         feelsLike: weatherData.main.feels_like
                     });
 
@@ -302,24 +354,18 @@ const getCityWeather = (cityName) => {
                     displayTodaysHighlights(cityName, {
                         airQuality: "N/A",
                         aqiLevel: "N/A",
-                        sunrise: weatherData.sys.sunrise ? new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString() : "N/A",
-                        sunset: weatherData.sys.sunset ? new Date(weatherData.sys.sunset * 1000).toLocaleTimeString() : "N/A",
-                        humidity: weatherData.main.humidity,
-                        pressure: weatherData.main.pressure,
-                        visibility: "N/A", // Update visibility retrieval
-                        feelsLike: weatherData.main.feels_like
+                        sunrise: "N/A",
+                        sunset: "N/A",
+                        humidity: "N/A",
+                        pressure: "N/A",
+                        feelsLike: "N/A"
                     });
-                    // Add city to recent searches
-                    addToRecentSearches(cityName);
                 });
         })
         .catch(error => {
-            alert(error.message);
+            console.error("Error fetching weather data:", error);
         });
 }
-
-
-
 
 // Function to get five-day forecast based on city coordinates
 const getCityCoordinates = (cityName, latitude, longitude) => {
@@ -381,6 +427,7 @@ const getUserCoordinates = () => {
         }
     );
 }
+
 
 /*-----------------------------------*\
 #EVENT LISTENERS
