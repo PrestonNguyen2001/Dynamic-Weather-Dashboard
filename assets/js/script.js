@@ -79,9 +79,6 @@ const renderRecentSearches = () => {
     });
 }
 
-// Render recent searches when the page loads
-renderRecentSearches();
-
 /*-----------------------------------*\
 #WEATHER CARDS
 \*-----------------------------------*/
@@ -110,13 +107,13 @@ const createWeatherCard = (cityName, weatherItem, index) => {
     if(index === 0) { // HTML for the main weather card
         const tempCelsius = kelvinToCelsius(weatherItem.main.temp);
         const tempFahrenheit = kelvinToFahrenheit(weatherItem.main.temp);
-        const windMph = mpsToMph(weatherItem.wind.speed);
         
 
         return `
             <h2 class="title-2 card-title">Now</h2>
                 <div class="wrapper">
                     <p class="heading">${tempFahrenheit}°F / ${tempCelsius}°C</p>
+                    
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
                 </div>
                 <p class="body-3">${weatherItem.weather[0].description}</p>
